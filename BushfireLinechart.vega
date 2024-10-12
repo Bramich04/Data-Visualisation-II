@@ -1,0 +1,195 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": {"text": "Recent Large-Scale Australian Bushfire Damage and Casualties", "anchor": "middle"},
+    "data": {
+    "url":
+    "https://raw.githubusercontent.com/Bramich04/_BushfireLinechart/refs/heads/main/_BushfireLinechart.csv"
+    },
+      
+      "vconcat": [
+        {
+        "width": 1150,
+        "height": 300,
+        "layer":[
+        {
+          "mark": {
+            "type": "text",
+            "align": "center",
+            "baseline": "top",
+            "dx": 25,
+            "dy": 0,
+            "fontSize": 15,
+            "fontStyle": "italic"
+            
+          },
+          "encoding": {
+            "x": {
+              "field": "Year", 
+              "type": "temporal"
+            },
+        
+            "y": {
+              "field": "Deaths", 
+              "type": "quantitative",
+              "axis": null
+            },
+      
+            "text": {"field": "Deaths", "type": "quantitative"},
+            "color": {"value": "darkred"},
+            "opacity": {
+              "condition": {
+                "test": "datum.Deaths == 173 || datum.Deaths == 75 || datum.Deaths == 64 || datum.Deaths == 71  ",
+                "value": 1
+              },
+              "value": 0
+      }
+      }
+  
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "center",
+            "baseline": "top",
+            "dx": 25,
+            "dy": 0,
+            "fontSize": 15,
+            "fontStyle": "italic"
+            
+          },
+          "encoding": {
+            "x": {
+              "field": "Year", 
+              "type": "temporal"
+            },
+        
+            "y": {
+              "field": "Area_Burned", 
+              "type": "quantitative",
+              "axis": null
+            },
+      
+            "text": {"field": "Area_Burned", "type": "quantitative", "format": ",.0f"},
+            "color": {"value": "orange"},
+            "opacity": {
+              "condition": {
+                "test": "datum.Area_Burned == 117000000",
+                "value": 1
+              },
+              "value": 0
+      }
+      }
+  
+        },
+        {
+          "mark": {"type": "line", "stroke": "darkred","strokeWidth": 7},
+  
+          "encoding": {
+            "x": {
+              "field": "Year", 
+              "type": "temporal",
+              "axis": {"title": ""}
+              },
+  
+            "y": {
+              "field": "Deaths", 
+              "type": "quantitative",
+              "title": "Human Deaths",
+              "scale": {"domain": [0, 180], "type": "linear"},
+              "axis": {"titleColor": "darkred"}
+            },
+  
+            "tooltip": [
+            {"field": "Name", "type": "nominal","title":"Common name"},
+            {"field": "Year", "type": "temporal","title":"Year","timeUnit": "year"},
+            {"field": "Deaths", "type": "quantitative","title":"Human Deaths"}
+            ]
+            
+        }
+        },
+        {
+          "mark": {"type": "line", "stroke": "orange","strokeWidth": 7},
+          "encoding": {
+            "x": {
+              "field": "Year", 
+              "type": "temporal",
+              "scale": {"domain": {"param": "brush"}}, 
+              "axis": {"title": ""}
+              },
+        
+            "y": {
+              "field": "Area_Burned", 
+              "type": "quantitative",
+              "scale": {"type": "log", "domain": [1, 1000000000]},
+              "title": "Hectares of Land Burned",
+              "axis": {"titleColor": "orange"}
+            },
+  
+          "tooltip": [
+            {"field": "Name", "type": "nominal","title":"Common name"},
+            {"field": "State(s)", "type": "nominal","title":"States impacted"},
+            {"field": "Year", "type": "temporal","title":"Year","timeUnit": "year"},
+            {"field": "Area_Burned", "type": "quantitative","title":"Area Burned (ha)","format": ",.0f"}
+          ]
+          }
+        }
+        ],
+        "resolve": {"scale": {"y": "independent"}}
+          
+      },
+  
+  
+  
+      {
+      "width": 1150,
+      "height": 80,
+      "layer":[
+      {
+        "mark": {"type": "line", "stroke": "darkred","strokeWidth": 2},
+          "encoding": {
+            "x": {
+              "field": "Year", 
+              "type": "temporal",
+              "scale": {"domain": {"param": "brush"}}, 
+              "axis": {"title": ""}
+              },
+  
+            "y": {
+              "field": "Deaths", 
+              "type": "quantitative",
+              "title": "Human Deaths",
+              "scale": {"domain": [0, 180], "type": "linear"},
+              "axis": {"titleColor": "darkred"}
+            }
+  
+  
+      }
+      },
+      {
+      "mark": {"type":"line","stroke": "orange","strokeWidth": 2},
+      "params": [
+        {"name": "brush", "select": {"type": "interval",
+        "encodings": ["x"]}}
+      ],
+      
+      "encoding": {
+        "x": {
+          "field": "Year", 
+          "type": "temporal",
+          "title": "Year"
+          },
+        "y": {
+          "field": "Area_Burned",
+          "type": "quantitative",
+          "axis": {"tickCount": 3, "grid": false, "titleColor": "orange"},
+          "scale": {"type": "log"},
+          "title": "Hectares of Land Burned"
+          }
+        }
+      }
+      ],
+      "resolve": {"scale": {"y": "independent"}}
+  }
+      ]
+  }
+  
